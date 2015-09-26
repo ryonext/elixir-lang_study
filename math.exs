@@ -14,6 +14,11 @@ defmodule Math do
   def zero?(x) when is_number(x) do
     false
   end
+
+  def some_function do
+    import List, only: [duplicate: 2]
+    duplicate(:ok, 10)
+  end
 end
 
 IO.puts Math.sum(1, 2)
