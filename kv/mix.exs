@@ -7,7 +7,9 @@ defmodule KV.Mixfile do
      elixir: "~> 1.0",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     deps: deps]
+     deps: deps,
+     deps_path: deps_path(Mix.env)
+   ]
   end
 
   # Configuration for the OTP application
@@ -29,4 +31,7 @@ defmodule KV.Mixfile do
   defp deps do
     []
   end
+
+  defp deps_path(:prod), do: "prod_deps"
+  defp deps_path(_), do: "deps"
 end
