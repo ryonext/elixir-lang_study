@@ -25,6 +25,13 @@ defmodule KV.Registry do
     GenServer.cast(server, {:create, name})
   end
 
+  @doc """
+  Stop the registry.
+  """
+  def stop(server) do
+    GenServer.call(server, :stop)
+  end
+
   ## Server Callbacks
 
   def init(:ok) do
@@ -42,5 +49,9 @@ defmodule KV.Registry do
       {:ok, bucket} = KV.Bucket.start_link()
       {:noreply, HashDict.put(names, name, bucket)}
     end
+  end
+
+  def handle_call(:stop, _from, state) do
+    {:stop, :normal, :ok, state}
   end
 end
