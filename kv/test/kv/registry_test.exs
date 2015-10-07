@@ -1,11 +1,6 @@
 defmodule KV.RegistryTest  do
   use ExUnit.Case, async: true
 
-  setup do
-    {:ok, registry} = KV.Registry.start_link
-    {:ok, registry: registry}
-  end
-
   test "spawns buckets", %{registry: registry} do
     assert KV.Registry.lookup(registry, "shopping") == :error
 
@@ -42,7 +37,7 @@ defmodule KV.RegistryTest  do
 
   test "sends events on create and crash", %{registry: registry} do
     KV.Registry.create(registry, "shopping")
-    {:ok, bucket} = KV.registry.lookup(registry, "shopping")
+    {:ok, bucket} = KV.Registry.lookup(registry, "shopping")
     assert_receive {:create, "shopping", ^bucket}
 
     Agent.stop(bucket)
