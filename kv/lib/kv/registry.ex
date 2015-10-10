@@ -57,18 +57,17 @@ defmodule KV.Registry do
 
   def init({table, events, buckets}) do
     # 3. We have replaced the names HashDict by the ETS table
-    ets = :ets.new(table, [:named_table, read_concurrency: true])
     refs = HashDict.new
-    {:ok, %{names: ets, refs: refs, events: events, buckets: buckets}}
+    {:ok, %{names: table, refs: refs, events: events, buckets: buckets}}
   end
 
-  def handle_call({:lookup, name}, _from, state) do
-    {:reply, HashDict.fetch(state.names, name), state}
-  end
+  #def handle_call({:lookup, name}, _from, state) do
+  #  {:reply, HashDict.fetch(state.names, name), state}
+  #end
 
-  def handle_call(:stop, _from, state) do
-    {:stop, :normal, :ok, state}
-  end
+  #def handle_call(:stop, _from, state) do
+  #  {:stop, :normal, :ok, state}
+  #end
 
   # 4. The previous handle_call callback for lookup was removed
 
