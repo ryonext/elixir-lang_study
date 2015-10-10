@@ -57,7 +57,9 @@ defmodule KV.Registry do
 
   def init({table, events, buckets}) do
     # 3. We have replaced the names HashDict by the ETS table
-    refs = HashDict.new
+    refs = :ets.foldl(fn {name, pid}, acc ->
+      HashDict.put(acc, Process.monitor(pid), name)
+    end, HashDict.new, table)
     {:ok, %{names: table, refs: refs, events: events, buckets: buckets}}
   end
 

@@ -61,4 +61,21 @@ defmodule KV.RegistryTest  do
     assert_receive {:exit, "shopping", ^bucket}
     assert KV.Registry.lookup(registry, "shopping") == :error
   end
+
+  test "monitors existing entroies", %{registry: registry, ets: ets} do
+    bucket = KV.Registry.create(registry, "shopping")
+
+    # Kill the registry. We unlink first, otherwise it will kill the test
+    Process.unlink(registry)
+    Process.exit(registry, :shutdown)
+
+    # Start a new registry with the existing table and access the bucket
+    start_registry(ets)
+    assert KV.Registry.lookup(ets, "shopping") == {:ok, bucket}
+
+    # Once the bucket dies, we should receive notifications
+    Process.exit(bucket, :shutdown)
+    assert_receive {:exit, "shopping", ^bucket}
+    assert KV.Registry.lookup(ets, "shopping") == :error
+  end
 end
