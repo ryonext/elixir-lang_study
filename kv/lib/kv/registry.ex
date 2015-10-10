@@ -32,6 +32,20 @@ defmodule KV.Registry do
     GenServer.cast(server, {:create, name})
   end
 
+  def handle_call({:create, name}, _from, state) do
+    case lookup(state.names, name) do
+      {:ok, pid} ->
+        {:reply, pid, state} #Reply with pid
+      :error ->
+        {:ok, pid} = KV.Bucket.Supervisor.start_bucket(state.buckets)
+        ref = Process.monitor(pid)
+        refs = HashDict.put(state.refs, ref, name)
+        :ets.insert(state.names, {name, pid})
+        GenEvent.sync_notify(state.events, {:create, name, pid})
+        {:reply, pid, %{state | refs: refs}} # Reply with pid
+    end
+  end
+
   @doc """
   Stop the registry.
   """
@@ -74,7 +88,7 @@ defmodule KV.Registry do
   end
 
   def handle_info({:DOWN, ref, :process, pid, _reason}, state) do
-    # 6. Delete from the ETS table instead of the HashDict
+    # 5. Delte from the ETS table instead of the HashDict
     {name, refs} = HashDict.pop(state.refs, ref)
     :ets.delete(state.names, name)
     GenEvent.sync_notify(state.events, {:exit, name, pid})
