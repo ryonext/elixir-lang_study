@@ -29,7 +29,7 @@ defmodule KV.Registry do
   Ensures there is a bucket associated to the given `name` in `server`.
   """
   def create(server, name) do
-    GenServer.cast(server, {:create, name})
+    GenServer.call(server, {:create, name})
   end
 
   def handle_call({:create, name}, _from, state) do
@@ -46,15 +46,6 @@ defmodule KV.Registry do
     end
   end
 
-  @doc """
-  Stop the registry.
-  """
-  def stop(server) do
-    GenServer.call(server, :stop)
-  end
-
-  ## Server Callbacks
-
   def init({table, events, buckets}) do
     # 3. We have replaced the names HashDict by the ETS table
     refs = :ets.foldl(fn {name, pid}, acc ->
@@ -62,14 +53,6 @@ defmodule KV.Registry do
     end, HashDict.new, table)
     {:ok, %{names: table, refs: refs, events: events, buckets: buckets}}
   end
-
-  #def handle_call({:lookup, name}, _from, state) do
-  #  {:reply, HashDict.fetch(state.names, name), state}
-  #end
-
-  #def handle_call(:stop, _from, state) do
-  #  {:stop, :normal, :ok, state}
-  #end
 
   # 4. The previous handle_call callback for lookup was removed
 
