@@ -1,6 +1,7 @@
 defmodule KVServer do
   use Application
 
+  @doc false
   def start(_type, _args) do
     import Supervisor.Spec
 
@@ -13,13 +14,10 @@ defmodule KVServer do
     Supervisor.start_link(children, opts)
   end
 
+  @doc """
+  Starts accepting connections on the given `port`.
+  """
   def accept(port) do
-    # The options below mean:
-    #
-    # 1. `:binary` - receives data as binaries (instead of lists)
-    # 2. `packet: :line` - receives data line by line
-    # 3. `active: false` - blocks on `:gen_tcp.recv/2` until data is available
-    # 4. `reuseaddr: true` allows us to reuse the address if the listener crashes
     {:ok, socket} = :gen_tcp.listen(port,
                       [:binary, packet: :line, active: false, reuseaddr: true])
     IO.puts "Accepting connections on port #{port}"
