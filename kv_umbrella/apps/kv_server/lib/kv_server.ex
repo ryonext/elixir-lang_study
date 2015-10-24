@@ -2,9 +2,11 @@ defmodule KVServer do
   use Application
 
   def start(_type, _args) do
-    import Supervisor.Spec, warn: false
+    import Supervisor.Spec
 
     children = [
+      supervisor(Task.Supervisor, [[name: KVServer.TaskSupervisor]]),
+      worker(Task, [KVServer, :accept, [4040]])
     ]
 
     opts = [strategy: :one_for_one, name: KVServer.Supervisor]
@@ -26,7 +28,8 @@ defmodule KVServer do
 
   defp loop_acceptor(socket) do
     {:ok, client} = :gen_tcp.accept(socket)
-    serve(client)
+    {:ok, pid} = Task.Supervisor.start_child(KVServer.TaskSupervisor, fn -> serve(client) end)
+    :ok = :gen_tcp.controlling_process(client, pid)
     loop_acceptor(socket)
   end
 
