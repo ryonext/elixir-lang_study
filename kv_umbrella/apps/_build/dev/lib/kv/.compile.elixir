@@ -1,0 +1,5 @@
+/Users/ryonext/dev/elixir-lang_study/kv/_build/dev/lib/kv/ebin/Elixir.KV.Registry.beam	Elixir.KV.Registry	lib/kv/registry.ex	Elixir.GenEvent	Elixir.GenServer	Elixir.HashDict	Elixir.KV.Bucket	Elixir.Kernel	Elixir.Module	Elixir.Process	erlang	Elixir
+/Users/ryonext/dev/elixir-lang_study/kv/_build/dev/lib/kv/ebin/Elixir.KV.Bucket.beam	Elixir.KV.Bucket	lib/kv/bucket.ex	Elixir.Agent	Elixir.HashDict	Elixir.Module	Elixir
+/Users/ryonext/dev/elixir-lang_study/kv/_build/dev/lib/kv/ebin/Elixir.KV.Supervisor.beam	Elixir.KV.Supervisor	lib/kv/supervisor.ex	Elixir.GenEvent	Elixir.KV.EventManager	Elixir.KV.Registry	Elixir.Kernel	Elixir.Module	Elixir.Supervisor	Elixir.Supervisor.Spec	Elixir
+/Users/ryonext/dev/elixir-lang_study/kv/_build/dev/lib/kv/ebin/Elixir.KV.beam	Elixir.KV	lib/kv.ex	Elixir.Application	Elixir.KV.Supervisor	Elixir.Kernel	Elixir.Module	Elixir
+_build/dev/lib/kv/ebin/Elixir.KV.Bucket.Supervisor.beam	Elixir.KV.Bucket.Supervisor	lib/kv/bucket/supervisor.ex	Elixir.KV.Bucket	Elixir.Kernel	Elixir.Module	Elixir.Supervisor	Elixir.Supervisor.Spec	Elixir
