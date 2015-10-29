@@ -8,7 +8,8 @@ defmodule KV.Mixfile do
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      deps: deps,
-     deps_path: deps_path(Mix.env)
+     deps_path: "../../deps",
+     lockfile: "../../mix.lock",
    ]
   end
 
@@ -30,7 +31,7 @@ defmodule KV.Mixfile do
   #
   # Type `mix help deps` for more examples and options
   defp deps do
-    [{:plug, "~> 0.5.0"}]
+    [{:plug, git: "git://github.com/elixir-lang/plug.git"}]
   end
 
   defp deps_path(:prod), do: "prod_deps"

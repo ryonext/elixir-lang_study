@@ -1,1 +1,2 @@
-%{"pipe": {:git, "git://github.com/batate/elixir-pipes.git", "eba4a47c689e473b425ef59f92a51dc3b3f28f85", []}}
+%{"pipe": {:git, "git://github.com/batate/elixir-pipes.git", "eba4a47c689e473b425ef59f92a51dc3b3f28f85", []},
+  "plug": {:git, "git://github.com/elixir-lang/plug.git", "b7b27ad2caaf91cd28aed9e3cff4a1aeb8ae87c0", []}}
