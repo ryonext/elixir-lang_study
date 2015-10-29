@@ -81,11 +81,6 @@ defmodule KVServer.Command do
     {:ok, "OK\r\n"}
   end
 
-  defp format_msg({:ok, text}), do: text
-  defp format_msg({:error, :unknown_command}), do: "UNKNOWN COMMAND\r\n"
-  defp format_msg({:error, :not_found}), do: "NOT FOUND\r\n"
-  defp format_msg({:error, _}), do: "ERROR\r\n"
-
   def run({:create, bucket}, pid) do
     KV.Registry.create(pid, bucket)
     {:ok, "OK\r\n"}
